@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const validator = require('validator');
 const { convert } = require('html-to-text');
 const cloudinary = require('cloudinary').v2;
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     name: {
