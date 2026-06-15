@@ -6,7 +6,8 @@ const cloudinary = require("../config/cloudinary")
 
 //signup a user
 exports.signup = catchAsyncErrors(async(req,res,next)=>{
-    const {name,email,password,passwordConfirmation,phoneNumber} = req.body
+    const { name, email, password, phoneNumber } = req.body
+    // const passwordConfirmation = req.body.passwordConfirmation || req.body.passwordConfirm
 
 let avatar = []
 //avatar not provided
