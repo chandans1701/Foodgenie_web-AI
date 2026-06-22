@@ -6,8 +6,7 @@ const cloudinary = require("../config/cloudinary")
 
 //signup a user
 exports.signup = catchAsyncErrors(async(req,res,next)=>{
-    const { name, email, password, phoneNumber } = req.body
-    // const passwordConfirmation = req.body.passwordConfirmation || req.body.passwordConfirm
+        const { name, email, password, phoneNumber, passwordConfirmation } = req.body
 
 let avatar = []
 //avatar not provided
@@ -18,12 +17,11 @@ if(!req.body.avatar || req.body.avatar === "/image/image.png") {
     }   
 }
 else{
-    const result = await cloudinary.UploadStream(req.body.avatar,{
+    const result = await cloudinary.uploader.upload(req.body.avatar, {
         folder: "avatars",
         width: 150,
         crop: "scale"
-    }
-    )
+    })
     avatar = {
         public_id: result.public_id,
         url: result.secure_url
@@ -39,7 +37,7 @@ sendToken(user,201,res)
 // login
 
 exports.login = catchAsyncErrors(async(req,res,next)=>{
-    const { email, password } = req.body,
+    const { email, password } = req.body;
     if(!email || !password){
         return next(new ErrorHandler("Please enter email and password",400))
     }
@@ -47,8 +45,10 @@ exports.login = catchAsyncErrors(async(req,res,next)=>{
     if (!user){
         return next(new ErrorHandler("Invalid email or password",401))
     }
+    const ispasswordmatched = await user.correctPassword(password, user.password)
     if(!ispasswordmatched){
         return next(new ErrorHandler("Invalid email or password",401))
 } 
+   sendToken(user,200,res)
 })
     

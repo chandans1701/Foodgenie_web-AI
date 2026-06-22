@@ -4,4 +4,5 @@ const authController = require('../controller/authController')
 
 // define the routes for authentication
 router.post('/signup', authController.signup)
+router.post('/login', authController.login)
 module.exports = router
