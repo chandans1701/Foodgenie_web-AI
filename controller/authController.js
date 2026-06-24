@@ -51,4 +51,14 @@ exports.login = catchAsyncErrors(async(req,res,next)=>{
 } 
    sendToken(user,200,res)
 })
+
+// get all users (basic public listing for development/testing)
+exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
+    const users = await User.find().select('name email phoneNumber avatar')
+    res.status(200).json({
+        success: true,
+        count: users.length,
+        users
+    })
+})
     
