@@ -61,4 +61,16 @@ exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
         users
     })
 })
+
+//get resturant by id
+exports.getRestaurant= catchAsyncErrors(async (req, res, next) => {
+    const restaurant = await Restaurant.findById(req.params.storeId)
+    if (!restaurant) {
+        return next(new ErrorHandler("Restaurant not found", 404))
+    }
+    res.status(200).json({
+        success: true,
+        restaurant
+    })
+})
     
