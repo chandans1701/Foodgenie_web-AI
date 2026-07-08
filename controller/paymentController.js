@@ -48,7 +48,16 @@ exports.processPayment = catchAsyncerrors(async (req, res, next) => {
                             maximum: { 
                                 unit: "hour",
                                 value: 2
-                            }   
-            
-        })
+                            } 
+                        }
+                    }
+                }  
+                        ],
+            success_url: `${process.env.FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.FRONTEND_URL}/cart`,
+        });
+        res.status(200).json({url:session.url})
+    })
+    exports.sendStripeApiKey = catchAsyncerrors(async (req, res, next) => {
+        res.status(200).json({stripeApiKey: process.env.STRIPE_API_KEY})
     })
